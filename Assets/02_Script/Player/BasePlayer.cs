@@ -6,6 +6,7 @@ using Logger = LittleSword.Common.Logger; //로거가 여러개 있어서 우리가 정의한 �
 
 namespace LittleSword.Player
 {
+    [RequireComponent(typeof(Rigidbody2D), typeof(InputHandler), typeof(CapsuleCollider2D))]
     public class BasePlayer : MonoBehaviour, IDamageable
     {   //기본적인 플레이어의 행동들, 공통적인 속성을 관리하는 클래스
         
@@ -64,6 +65,11 @@ namespace LittleSword.Player
             col = GetComponent<Collider2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
+
+            rb.gravityScale = 0f;
+            rb.freezeRotation = true;
+
+            CurrentHP = playerStats.maxHP;
         }
         #endregion
         
@@ -81,6 +87,8 @@ namespace LittleSword.Player
         #region 피격관련 메서드
         public void TakeDamage(int damage)
         {
+            if (IsDead) return;
+
             CurrentHP = Mathf.Max(CurrentHP - damage, 0);
             if (IsDead)
             {

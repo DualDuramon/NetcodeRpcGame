@@ -6,5 +6,5 @@ public class PlayerStats : ScriptableObject
     public int maxHP = 100;
     public float moveSpeed = 5.0f;
     public int attackDamage = 20;
-
+    public float fireForce = 10.0f;
 }
